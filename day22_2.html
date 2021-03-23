@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="day22_2.css">
+
+    <title>Day 22 JavaScript</title>
+</head>
+<body>
+    <script src="countries.js"></script>
+    <script>
+
+        //#region tạo wrapper và ul
+        const div = document.createElement('div')
+        div.className = "container"
+        document.body.appendChild(div)
+
+        const title1 = document.createElement('h1')
+        title1.textContent = 'WORLD COUNTRIES LIST'
+
+        const title2 = document.createElement('h3')
+        title2.textContent = 'Total Number of countries:' + countries.length
+
+        const paragrap1 = document.createElement('p')
+        paragrap1.textContent = '30DaysOfJavaScript:DOM-Day-2'
+
+        const paragrap2 = document.createElement('p')
+        paragrap2.textContent = 'Developer: Hoang Nam' 
+        
+        
+        const ul = document.createElement('ul')
+
+        div.appendChild(title1)
+        div.appendChild(title2)
+        div.appendChild(paragrap1)
+        div.appendChild(paragrap2)
+        div.appendChild(ul)
+
+        ul.className = 'row'
+        
+        
+        //#endregion
+
+        //#region tạo bảng 
+        for (let i = 0; i < countries.length; i++) {
+            let li = document.createElement('li')
+            li.textContent = countries[i]
+            ul.appendChild(li)
+            li.className = 'col-sm-2'
+        }
+        
+        //#endregion
+    </script>
+</body>
+</html>

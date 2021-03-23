@@ -1,0 +1,29 @@
+*,html,body {margin: 0; padding: 0;}
+
+
+.container {
+    
+}
+
+.container ul{
+    text-align: center;
+    margin: 2px;
+}
+
+.container ul li{
+    list-style: none;
+    display: inline-block;
+    padding: 5px 0;
+    margin: 2px;
+    color: white;
+}
+
+.xanhluc {
+    background-color: green;
+}
+.vang {
+    background-color: yellow;
+}
+.do {
+    background-color: red;
+}

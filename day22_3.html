@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+     <!-- jQuery library -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <!-- Popper JS -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+     <!-- Latest compiled JavaScript -->
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ 
+     <link rel="stylesheet" href="day22_3.css">
+    
+    <title>Document</title>
+</head>
+<body>
+    <script src="challengeInfo_22_3.js"></script>
+    <script>
+        
+        console.log(asabenehChallenges2020);
+        //#region  khởi tạo các thẻ
+        const div = document.createElement('div')
+        document.body.appendChild(div)
+        div.className = 'container'
+
+        const h1 = document.createElement('h1')
+        const h1_span = document.createElement('span')
+        const h3 = document.createElement('h3')
+        const pTime = document.createElement('p')
+
+        h1.textContent = asabenehChallenges2020['description']
+        h1_span.textContent = ' 2020'
+        h3.textContent = asabenehChallenges2020['challengeSubtitle']
+
+        var d = new Date()
+        var t = ""+d.getMonth() +" " + d.getDate() +', ' + d.getFullYear() +' ' + d.getHours()+':' + d.getMinutes() +':' + d.getSeconds()+""
+        pTime.textContent = t
+
+        div.appendChild(h1)
+        h1.appendChild(h1_span)
+        div.appendChild(h3)
+        div.appendChild(pTime)
+        //#endregion
+
+
+        
+    </script>
+</body>
+</html>
