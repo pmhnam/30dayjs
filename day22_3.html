@@ -1,54 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-     <!-- Latest compiled and minified CSS -->
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-     <!-- jQuery library -->
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-     <!-- Popper JS -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-     <!-- Latest compiled JavaScript -->
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
- 
-     <link rel="stylesheet" href="day22_3.css">
-    
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="day22_3.css" />
+
     <title>Document</title>
 </head>
+
 <body>
     <script src="challengeInfo_22_3.js"></script>
     <script>
-        
-        console.log(asabenehChallenges2020);
-        //#region  khởi tạo các thẻ
-        const div = document.createElement('div')
-        document.body.appendChild(div)
-        div.className = 'container'
+        const listColor = [
+            " #007bff",
+            "#6610f2",
+            "#6f42c1",
+            "#e83e8c",
+            "#dc3545",
+            "#fd7e14",
+            "#ffc107",
+            "#28a745",
+            "#20c997",
+            "#17a2b8",
+            "#6c757d",
+            "#343a40",
+            "#007bff",
+            "#6c757d",
+            "#28a745",
+            "#17a2b8",
+            "#ffc107",
+            "#dc3545",
+            "#343a40"
+        ];
+        function getRndInteger(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
 
-        const h1 = document.createElement('h1')
-        const h1_span = document.createElement('span')
-        const h3 = document.createElement('h3')
-        const pTime = document.createElement('p')
+        //#region  khởi tạo các thẻ và nội dung header
+        const div = document.createElement("div");
+        document.body.appendChild(div);
+        div.className = "container";
 
-        h1.textContent = asabenehChallenges2020['description']
-        h1_span.textContent = ' 2020'
-        h3.textContent = asabenehChallenges2020['challengeSubtitle']
+        const h1 = document.createElement("h1");
+        const h1_span = document.createElement("span");
+        const h3 = document.createElement("h3");
+        const pTime = document.createElement("p");
+        const ul = document.createElement("ul");
 
-        var d = new Date()
-        var t = ""+d.getMonth() +" " + d.getDate() +', ' + d.getFullYear() +' ' + d.getHours()+':' + d.getMinutes() +':' + d.getSeconds()+""
-        pTime.textContent = t
+        h1.textContent = asabenehChallenges2020["description"];
+        h1_span.textContent = " 2020";
+        h1_span.className = "2020";
+        h3.textContent = asabenehChallenges2020["challengeSubtitle"];
+        h3.className = "subtitle";
 
-        div.appendChild(h1)
-        h1.appendChild(h1_span)
-        div.appendChild(h3)
-        div.appendChild(pTime)
+
+        var d = new Date();
+        var t =
+            "" +
+            d.getMonth() +
+            " " +
+            d.getDate() +
+            ", " +
+            d.getFullYear() +
+            " " +
+            d.getHours() +
+            ":" +
+            d.getMinutes() +
+            ":" +
+            d.getSeconds() +
+            "";
+        pTime.textContent = t;
+        pTime.className = "time";
+
+        ul.className = "challenges";
+
+        div.appendChild(h1);
+        h1.appendChild(h1_span);
+        div.appendChild(h3);
+        div.appendChild(pTime);
+        div.appendChild(ul);
+
+        h1_span.style.fontSize = "80px";
+
+        const dongho = (pTime) => {
+            setInterval(() => {
+                var d = new Date();
+                var t =
+                    "" +
+                    d.getMonth() +
+                    " " +
+                    d.getDate() +
+                    ", " +
+                    d.getFullYear() +
+                    " " +
+                    d.getHours() +
+                    ":" +
+                    d.getMinutes() +
+                    ":" +
+                    d.getSeconds() +
+                    "";
+                pTime.textContent = t;
+                pTime.className = "time";
+            }, 1000)
+
+        }
+
+        const changeColor = (ele) => {
+            setInterval(() => {
+                let n = getRndInteger(0, listColor.length);
+                ele.style.color = listColor[n];
+            }, 1000);
+        };
+        const changeBackgroundColor = (ele) => {
+            setInterval(() => {
+                let n = getRndInteger(0, listColor.length);
+                ele.style.background = listColor[n];
+            }, 1000);
+        };
+
+        changeColor(h1_span);
+        changeBackgroundColor(pTime);
+        dongho(pTime)
+
         //#endregion
 
+       //#region container
+
+        asabenehChallenges2020["challenges"].forEach((element) => {
+            // tạo content mỗi challenge
+            let str = element["name"];
+            let n = str.indexOf("Of");
+            let name = str.slice(n + 2);
+
+            let li = document.createElement("li");
+            let a = document.createElement("a");
+            let details = document.createElement("details");
+            let p = document.createElement("p");
+
+            li.className = "row";
+            a.className = "col-sm-5";
+            details.className = "col-sm-4";
+            p.className = "col-sm-2";
+
+            li.appendChild(a);
+            li.appendChild(details);
+            li.appendChild(p);
+            ul.appendChild(li);
+
+            a.textContent = element["name"];
+            a.href = element["githubUrl"];
+
+            let summary = document.createElement("summary");
+            summary.textContent = name;
+            let detail = document.createElement("ul");
+            element["topics"].forEach((ele) => {
+                let d = document.createElement("li");
+                d.textContent = ele;
+                detail.appendChild(d);
+            });
+            details.appendChild(summary);
+            details.appendChild(detail);
+
+            p.textContent = element["status"];
+
+            // css
+            if (element["status"] == "Done") {
+                li.style.background = "green";
+            } else {
+                if (element["status"] == "Ongoing") {
+                    li.style.background = "yellow";
+                } else {
+                    li.style.background = "red";
+                }
+            }
+        });
+
+        //#endregion
+        
+        //#region footer
+        const auth = document.createElement("h1");
+        auth.textContent =
+            asabenehChallenges2020["author"]["firstName"] +
+            " " +
+            asabenehChallenges2020["author"]["lastName"];
+
+        const iconInf = document.createElement("p");
+        let context =
+            asabenehChallenges2020["author"]["socialLinks"]["0"][
+            "fontawesomeIcon"
+            ] +
+            asabenehChallenges2020["author"]["socialLinks"]["1"][
+            "fontawesomeIcon"
+            ] +
+            asabenehChallenges2020["author"]["socialLinks"]["2"]["fontawesomeIcon"];
+        iconInf.innerHTML = context;
+        iconInf.className = "icon_inf";
+
+        const description = document.createElement("p");
+        description.textContent = asabenehChallenges2020["author"]["bio"];
+
+        const titlesName = document.createElement("h4");
+        titlesName.textContent = 'Titles'
+    
+        const titles = document.createElement("ul");
+        titles.textContent = "";
+        titles.className = "col-sm-4 titles";
+        titles.appendChild(titlesName);
+        asabenehChallenges2020["author"]["titles"].forEach((ele) => {
+            let title = document.createElement("li");
+            titles.appendChild(title);
+            title.textContent = ele;
+        });
+
+        const skillsName = document.createElement("h4");
+        skillsName.textContent = 'Skills'
+        const skills = document.createElement("ul");
+        skills.textContent = "";
+        skills.className = "col-sm-4 skills";
+        skills.appendChild(skillsName);
+        asabenehChallenges2020["author"]["skills"].forEach((ele) => {
+            let skill = document.createElement("li");
+            skills.appendChild(skill);
+            skill.textContent = ele;
+        });
+
+        const qualificationsName = document.createElement("h4");
+        qualificationsName.textContent = 'Qualifications'
+        const qualifications = document.createElement("ul");
+        qualifications.textContent = "";
+        qualifications.className = "col-sm-4 qualifications";
+        qualifications.appendChild(qualificationsName);
+        asabenehChallenges2020["author"]["qualifications"].forEach((ele) => {
+            let qualification = document.createElement("li");
+            qualifications.appendChild(qualification);
+            qualification.textContent = ele;
+        });
+
+        const k = document.createElement("h4");
+        k.textContent = 'Keywords'
+        k.style.textAlign = 'left'
+
+        const keywords = document.createElement("ul");
+
+        keywords.className = "row keywords";
+        asabenehChallenges2020["keywords"].forEach((ele) => {
+            let keyword = document.createElement("li");
+            keywords.appendChild(keyword);
+            keyword.className = "";
+            keyword.style.margin = "5px";
+            keyword.style.padding = "10px";
+            keyword.style.borderRadius = "20px";
+
+            let n = getRndInteger(0,listColor.length)
+            keyword.style.background = listColor[n];
+
+            keyword.textContent = '#'+ele;
+        });
+
+        let tsq = document.createElement("div");
+        tsq.className = "row";
+
+        div.appendChild(auth);
+        div.appendChild(iconInf);
+        div.appendChild(description);
+        div.appendChild(tsq);
 
         
+        tsq.appendChild(titles);
+        tsq.appendChild(skills);
+        tsq.appendChild(qualifications);
+        
+
+        div.appendChild(k);
+        div.appendChild(keywords);
+
+
+
+      //#endregion
+
     </script>
 </body>
+
 </html>

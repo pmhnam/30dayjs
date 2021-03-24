@@ -44,32 +44,32 @@ const asabenehChallenges2020 = {
       firstName: 'Asabeneh',
       lastName: 'Yetayeh',
       titles: [
-        ['🌱', 'Educator'],
-        ['💻', 'Programmer'],
-        ['🌐', 'Developer'],
-        ['🔥', 'Motivator'],
-        ['📔', 'Content Creator']
+        ['🌱 Educator'],
+        ['💻 Programmer'],
+        ['🌐 Developer'],
+        ['🔥 Motivator'],
+        ['📔 Content Creator']
       ],
       qualifications: [
-        'MSc. Computer Science Ongoing',
-        'BSc. Information and Communication Eng.',
-        'MSc. Food Technology',
-        'BSc.Food Technology'
+        '👨‍🎓 MSc. Computer Science Ongoing',
+        '👨‍🎓 BSc. Information and Communication Eng.',
+        '👨‍🎓 MSc. Food Technology',
+        '👨‍🎓 BSc.Food Technology'
       ],
       socialLinks: [
         {
           social: 'LinkedIn',
           url: 'https://www.linkedin.com/in/asabeneh/',
-          fontawesomeIcon: '<i class="fab fa-linkedin">'
+          fontawesomeIcon: '<i class="fa fa-linkedin-square"></i>'
         },
         {
           social: 'Twitter',
           url: 'https://twitter.com/Asabeneh',
-          fontawesomeIcon: '<i class="fab fa-twitter-square"></i>'
+          fontawesomeIcon: '<i class="fa fa-twitter-square"></i>'
         },
         {
           social: 'Github',
-          fontawesomeIcon: '<i class="fab fa-github-square"></i>',
+          fontawesomeIcon: '<i class="fa fa-github-square"></i>',
           url: 'https://github.com/Asabeneh'
         },
         {
@@ -79,12 +79,12 @@ const asabenehChallenges2020 = {
         }
       ],
       skills: [
-        'Web Development',
-        'Data Analysis',
-        'Data Visualization',
-        'Programming',
-        'Databases',
-        'Developing API'
+        '✅ Web Development',
+        '✅ Data Analysis',
+        '✅ Data Visualization',
+        '✅ Programming',
+        '✅ Databases',
+        '✅ Developing API'
       ],
       bio:
         'I am an educator, developer, motivator and content creator. I am a life-long learner. If you like to know more about me checkout my LinkedIn or Github profile. Thank you so much for joining in my quest of changing everyone to developer.'
