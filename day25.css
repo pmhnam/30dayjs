@@ -1,0 +1,14 @@
+*, html, body {margin: 0;padding: 0;}
+
+.container{
+    text-align: center;
+}
+
+.skills {
+    text-align: right;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: rgb(252, 180, 25);
+}
+.danso {
+}

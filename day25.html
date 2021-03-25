@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="day25.css">
+    <title>Day 25 JS</title>
+</head>
+<body class="container">
+    <h1>World Countries Data</h1>
+    <p>Currently, we have 250 Countries</p>
+    <button onclick="chartPl()">POPULATION</button>
+    <button onclick="chartLg()">LANGUAGES</button>
+    <p class="title"></p>
+    <script>
+        const countriesAPI = 'https://restcountries.eu/rest/v2/all'
+        
+
+        fetch(countriesAPI)
+            .then(response => response.json())
+            .then(data => {
+                var resultPl = []
+                var resultLg = []
+                var TOTALLANG = 0
+                var TOTALPL = 0
+                const listCountries = []
+                const listLanguages = []
+
+                data.forEach(element => {
+                    listCountries.push([element['name'], element['population']])
+                    element['languages'].forEach( ele => {
+                        listLanguages.push(ele['name'])
+                    })
+                    TOTALPL+=element['population']
+                });
+
+                // xep theo dan so
+                const sortPl = listCountries.sort((a, b) => {return b[1] - a[1];})
+                
+                const setLang = new Set(listLanguages)
+                const listLang = []
+                for (const lang of setLang) {
+                    const sortLang = listLanguages.filter( l => l === lang)
+                    listLang.push([lang, sortLang.length])
+                }
+                const sortLg = listLang.sort((a, b) => { return b[1] - a[1]})
+
+
+                resultPl = sortPl.filter((value, index) => index < 10 )
+                resultLg = sortLg.filter((value, index) => index < 10 )
+
+                TOTALLANG = setLang.size
+
+                const resultPlJson =JSON.stringify(resultPl, undefined , 4)
+                const resultLgJson =JSON.stringify(resultLg, undefined , 4)
+                sessionStorage.setItem('resultPl',resultPlJson)
+                sessionStorage.setItem('resultLg',resultLgJson)
+                sessionStorage.setItem('TOTALLANG',TOTALLANG)
+                sessionStorage.setItem('TOTALPL',TOTALPL)
+
+            })
+            .catch(e => console.log(e))
+
+
+            function drawPl(list){
+                const l = JSON.parse(list)
+
+                let wrapper = document.createElement('div')
+                wrapper.className = 'wrapper'
+
+                let world = document.createElement('div')
+                world.className = 'row'
+                wname = document.createElement('p')
+                wname.className = 'col-sm-3'
+                wname.textContent = 'World'
+                w1 = document.createElement('div')
+                w1.className = 'danso col-sm-5'
+                w2 = document.createElement('div')
+                w2.className = 'skills'
+                w2.style.width  = '100%'
+                wdetail = document.createElement('p')
+                wdetail.className = 'col-sm-4 detail'
+                wdetail.textContent = sessionStorage.getItem('TOTALPL')
+
+                document.body.appendChild(wrapper)
+                wrapper.appendChild(world)
+                world.appendChild(wname)
+                world.appendChild(w1)
+                w1.appendChild(w2)
+                world.appendChild(wdetail)
+
+                for (let i = 0; i < 10; i++) {
+                    let div = document.createElement('div')
+                    div.className = 'row'
+                    var nameC = document.createElement('p')
+                    nameC.textContent = l[i][0]
+                    nameC.className = 'col-sm-3'
+                    var detail = document.createElement('p')
+                    detail.textContent = l[i][1]
+                    detail.className = 'col-sm-4 detail'
+
+                    var div2 = document.createElement('div')
+                    div2.className = 'danso col-sm-5'
+                    var div3 = document.createElement('div')
+                    div3.className = 'skills'
+                    div3.style.width = `${l[i][1]/sessionStorage.getItem('TOTALPL')*100}%`
+
+                    document.body.appendChild(wrapper)
+                    wrapper.appendChild(div)
+                    div.appendChild(nameC)
+                    div.appendChild(div2)
+                    div.appendChild(detail)
+                    div2.appendChild(div3)
+                    
+                }
+            }
+            
+            function drawLg(list){ 
+                const l = JSON.parse(list)
+                let wrapper = document.createElement('div')
+                    wrapper.className = 'wrapper'
+
+                for (let i = 0; i < 10; i++) {
+                    let div = document.createElement('div')
+                    div.className = 'row'
+                    var nameC = document.createElement('p')
+                    nameC.textContent = l[i][0]
+                    nameC.className = 'col-sm-3'
+                    var detail = document.createElement('p')
+                    detail.textContent = l[i][1]
+                    detail.className = 'col-sm-4 detail'
+
+                    var div2 = document.createElement('div')
+                    div2.className = 'ngonngu col-sm-5'
+                    var div3 = document.createElement('div')
+                    div3.className = 'skills'
+                    div3.style.width = `${l[i][1]/sessionStorage.getItem('TOTALLANG')*100}%`
+
+                    
+                    document.body.appendChild(wrapper)
+                    wrapper.appendChild(div)
+                    div.appendChild(nameC)
+                    div.appendChild(div2)
+                    div.appendChild(detail)
+                    div2.appendChild(div3)
+                    
+                }
+            }
+
+            function chartPl(){
+                try {
+                    var wrapper = document.querySelectorAll('.wrapper')[0]
+                    console.log(wrapper);
+                    document.body.removeChild(wrapper)
+                    
+                } catch (error) {
+                    console.log();
+                }
+                let t = document.querySelector('.title')
+                t.textContent = '10 most populated contries in the world'
+                drawPl(sessionStorage.getItem('resultPl'))
+            }     
+
+            function chartLg(){
+                try {
+                    var wrapper = document.querySelectorAll('.wrapper')[0]
+                    console.log(wrapper);
+                    document.body.removeChild(wrapper)
+                    
+                } catch (error) {
+                    console.log();
+                }
+                let t = document.querySelector('.title')
+                t.textContent = '10 most spoken languages in the world'
+                drawLg(sessionStorage.getItem('resultLg'))
+
+            }
+        
+        //#region loc 10 nuoc co dien tich lon nhat
+
+    </script>
+</body>
+</html>

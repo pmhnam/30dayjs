@@ -62,8 +62,8 @@
         const ul = document.createElement("ul");
 
         h1.textContent = asabenehChallenges2020["description"];
-        h1_span.textContent = " 2020";
-        h1_span.className = "2020";
+        h1_span.textContent = " 2021";
+        h1_span.className = "2021";
         h3.textContent = asabenehChallenges2020["challengeSubtitle"];
         h3.className = "subtitle";
 
@@ -71,7 +71,7 @@
         var d = new Date();
         var t =
             "" +
-            d.getMonth() +
+            (d.getMonth()+1) +
             " " +
             d.getDate() +
             ", " +
@@ -101,7 +101,7 @@
                 var d = new Date();
                 var t =
                     "" +
-                    d.getMonth() +
+                    (d.getMonth()+1) +
                     " " +
                     d.getDate() +
                     ", " +
