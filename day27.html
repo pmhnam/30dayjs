@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Document</title>
+</head>
+<body>
+    <h1></h1>
+        <input  id = 'firstname' name='firstname' type="text" required>
+        <input  id = 'lastname' name='lastname' type="text" required>
+        <input  id = 'country' name='country' type="text" required>
+        <input  id = 'score' name='score' type="number" required>
+        <input id = 'add' type="submit" value="add player">
+    
+    <p class="noted"></p>
+    <div class="container">
+        <!-- <div class="player1">
+            <button onclick="removePlayer(event)" class='player1'></button>
+        </div> -->
+    </div>
+    <script>
+        //#region  khai bao
+        var fn  = document.querySelector('#firstname')
+        var ln  = document.querySelector('#lastname')
+        var ct  = document.querySelector('#country')
+        var sc  = document.querySelector('#score')
+        var bnA = document.querySelector('#add')
+        var cnt = document.querySelector('.container')
+        var noted = document.querySelector('.noted')
+        var date = new Date()
+        var number = 1
+        //#endregion
+
+
+        const removePlayer = (e) => {
+            console.log(e.target.parentNode.className);
+            let element = document.querySelector(`.${e.target.parentNode.className}`)
+            cnt.removeChild(element)
+            number--
+        }
+
+        const addScore = (e) => {
+            let ele = e.target.previousElementSibling.previousElementSibling
+            let sc = ele.textContent
+            ele.textContent = parseInt(sc) + 5
+
+        }
+        const removeScore = (e) => {
+            let ele = e.target.previousElementSibling.previousElementSibling.previousElementSibling
+            let sc = ele.textContent
+            ele.textContent = parseInt(sc) - 5
+        }
+
+        bnA.addEventListener('click', () => {
+            let div = document.createElement('div')
+            let clName = 'player' + number
+            div.className = clName
+            cnt.appendChild(div)
+            let fullName = document.createElement('p')
+            let time    = document.createElement('p')
+            let country = document.createElement('p')
+            let score   = document.createElement('p')
+            let remove   = document.createElement('button')
+            let cong   = document.createElement('button')
+            let tru   = document.createElement('button')
+
+            // check value not null
+            if (ln.value.length ==0 & fn.value.length ==0  & ct.value.length ==0 & sc.value.length ==0){
+                
+                console.log(noted);
+                noted.textContent = 'please input the form'
+            }else{
+                noted.textContent = ''
+                fullName.textContent   = fn.value +' '+ ln.value
+                fullName.className = clName
+
+                time.textContent   = date.toLocaleString()
+                time.className = clName
+
+                country.textContent = ct.value
+                country.className = clName
+
+                score.textContent   = sc.value
+                score.className = clName
+
+                cong.textContent = '+5'
+                cong.className = clName
+                cong.setAttribute('onclick',`addScore(event)`)
+                
+                tru.textContent = '-5'
+                tru.className = clName
+                tru.setAttribute('onclick',`removeScore(event)`)
+
+                remove.innerHTML = `<i class="fa fa-trash" aria-hidden="true"></i>`
+                remove.className = clName
+                remove.setAttribute('onclick',`removePlayer(event)`) 
+
+                div.appendChild(fullName)
+                div.appendChild(time)
+                div.appendChild(country)
+                div.appendChild(score)
+                div.appendChild(remove)
+                div.appendChild(cong)
+                div.appendChild(tru)
+
+                fn.value = ''
+                ln.value = ''
+                ct.value = ''
+                sc.value = ''
+                number++
+
+            }
+
+            
+        })
+
+        
+
+
+    </script>
+</body>
+</html>
