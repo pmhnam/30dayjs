@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="countries.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>WORLD COUNTRIES LIST</h1>
+    <h3 class="countriesNumber"></h3>
+    <h3 class="numberseach"></h3>
+    <button onclick="searchSW()">seach starting word</button>
+    <button onclick="searchIOW()">seach index of word</button>
+    <input id='nut'></input>
+    <div id='show'>
+        <div class = 'detail'></div>
+    </div>
+    <script>
+        // countries.sort((a, b) => { return b['name'] - a['name']})
+        const i = document.querySelector('#nut')
+        const show = document.querySelector('#show')
+        const detail = document.querySelector('.detail')
+
+
+        const nblish = document.querySelector('.countriesNumber')
+        const nbsearch = document.querySelector('.numberseach')
+        nblish.textContent = `total number of countries : ${countries.length}`
+        nbsearch.textContent = `total number of countries : ${countries.length}`
+
+        countries.forEach((ele) => {
+            ele['name'] = ele['name'].toUpperCase()
+        })
+
+        const taoList = () => {
+            countries.forEach( value => {
+                let p = document.createElement('p')
+                detail.appendChild(p)
+                p.textContent = value['name']
+            })
+        }
+
+        const xoaList = () => {
+            detail.innerHTML = ''
+        }
+
+        const searchSW = () => {
+            i.value = ''
+            xoaList()
+            taoList()
+            i.addEventListener('input',(e) => {
+                let number = 0
+                xoaList()
+                i.value = i.value.toUpperCase()
+
+                countries.forEach((v) => {
+                    if (v['name'].search(e.target.value) == 0){
+                        let a = document.createElement('p')
+                        a.textContent = v['name']
+                        detail.appendChild(a)
+                        number++
+                    }
+                })
+                nbsearch.textContent = `total number of countries : ${number}`
+            })
+            
+        }
+
+        const searchIOW = () => {
+            i.value = ''
+            xoaList()
+            taoList()
+            i.addEventListener('input',(e) => {
+                let number = 0
+                xoaList()
+                i.value = i.value.toUpperCase()
+
+                countries.forEach((v) => {
+                    if (v['name'].search(e.target.value) != -1){
+                        let a = document.createElement('p')
+                        a.textContent = v['name']
+                        detail.appendChild(a)
+                        number++
+                    }
+                })
+            nbsearch.textContent = `total number of countries : ${number}`
+
+            })
+        }
+
+        taoList()
+        searchSW()
+
+    </script>
+</body>
+</html>
