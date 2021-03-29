@@ -70,9 +70,9 @@
         }
 
         const removePlayer = (e) => {
-            let clName = e.target.parentNode.parentNode.className
-            let element = document.querySelector(`.${clName}`)
-            sessionStorage.removeItem(clName)
+            let id = e.target.parentNode.parentNode.id
+            let element = document.querySelector(`#${id}`)
+            sessionStorage.removeItem(id)
             cnt.removeChild(element)
         }
 
