@@ -1,0 +1,8 @@
+{
+    "s": {
+        "fullName": fullName.textContent,
+        "time": time.textContent,
+        "country": country.textContent,
+        "score": score.textContent
+    }
+}
