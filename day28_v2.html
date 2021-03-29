@@ -6,26 +6,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-    <title>Document</title>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="day28_v2.css">
+    <title>Day 28 JavaScript</title>
 </head>
 
 <body>
-    <h1></h1>
-    <form action="" method="dialog" name='form1' onsubmit="addplayer()">
-        <input id='firstname' name='firstname' type="text" required>
-        <input id='lastname' name='lastname' type="text" required>
-        <input id='country' name='country' type="text" required>
-        <input id='score' name='score' type="number" required>
-        <input id='add' type="submit" value="add player">
-    </form>
-    <p class="noted"></p>
     <div class="container">
-
+        <h1>30 Days of JavaScript challenge leaderbroad</h1>
+        <form class='row' action="" method="dialog" name='form1' onsubmit="addplayer()">
+            <input style="margin: 2px; padding: 5px;" placeholder="First Name" class='col-sm-2' id='firstname' name='firstname' type="text" required>
+            <input style="margin: 2px; padding: 5px;" placeholder="Last Name" class='col-sm-2' id='lastname' name='lastname' type="text" required>
+            <input style="margin: 2px; padding: 5px;" placeholder="Country" class='col-sm-2' id='country' name='country' type="text" required>
+            <input style="margin: 2px; padding: 5px;" placeholder="Score" class='col-sm-2' id='score' name='score' type="number" required>
+            <input style="margin: 2px; padding: 5px;" class='col-sm-2 btn-primary' id='add' type="submit" value="Add Player">
+        </form>
+        <p class="noted"></p>
+        <div class="wrapper"></div>
     </div>
-
+    
     <script>
-        var cnt = document.querySelector('.container')
+        var cnt = document.querySelector('.wrapper')
         var noted = document.querySelector('.noted')
         var date = new Date()
         
@@ -35,28 +44,28 @@
 
         const plusScore = (e) => {
             let ele = e.target.previousElementSibling.previousElementSibling
-            clName = e.target.parentNode.className
+            id = e.target.parentNode.id
             let sc = ele.textContent
             ele.textContent = parseInt(sc) + 5
             // chỉnh sửa data
-            let dataText = sessionStorage.getItem(clName)
+            let dataText = sessionStorage.getItem(id)
             let data = JSON.parse(dataText)
             data['score'] = ele.textContent
             dataJson = JSON.stringify(data, undefined, 4)
-            sessionStorage.setItem(clName, dataJson)
+            sessionStorage.setItem(id, dataJson)
         }
         
         const minusScore = (e) => {
             let ele = e.target.previousElementSibling.previousElementSibling.previousElementSibling
-            clName = e.target.parentNode.className
+            id = e.target.parentNode.id
             let sc = ele.textContent
             ele.textContent = parseInt(sc) - 5
             // chỉnh sửa data
-            let dataText = sessionStorage.getItem(clName)
+            let dataText = sessionStorage.getItem(id)
             let data = JSON.parse(dataText)
             data['score'] = ele.textContent
             dataJson = JSON.stringify(data, undefined, 4)
-            sessionStorage.setItem(clName, dataJson)
+            sessionStorage.setItem(id, dataJson)
             // console.log(sessionStorage.getItem(clName));
         }
 
@@ -69,10 +78,12 @@
 
         const addplayer = () => {
             let div = document.createElement('div')
-            let clName = 'player_' + number
-            console.log(clName);
-            div.className = clName
+            let id = 'player_' + number
+            div.id = id
+            div.className = 'row'
             cnt.appendChild(div)
+
+            let wFT = document.createElement('div')
             let fullName = document.createElement('p')
             let time = document.createElement('p')
             let country = document.createElement('p')
@@ -80,25 +91,43 @@
             let remove = document.createElement('button')
             let cong = document.createElement('button')
             let tru = document.createElement('button')
-            div.appendChild(fullName)
-            div.appendChild(time)
+
+            wFT.appendChild(fullName)
+            wFT.appendChild(time)
+            div.appendChild(wFT)
             div.appendChild(country)
             div.appendChild(score)
             div.appendChild(remove)
             div.appendChild(cong)
             div.appendChild(tru)
 
+            wFT.className = 'playerItem col-sm-3'
+            // fullName.className = 'playerItem'
+            // time.className = 'playerItem'
+            country.className = 'playerItem  col-sm-3'
+            score.className = 'playerItem col-sm-3'
+            remove.className = 'playerIcon '
+            cong.className = 'playerIcon '
+            tru.className = 'playerIcon '
+
             fullName.textContent = document.forms['form1']['firstname'].value + ' ' + document.forms['form1']['lastname'].value
             time.textContent = date.toLocaleString()
             country.textContent = document.forms['form1']['country'].value
             score.textContent = document.forms['form1']['score'].value
-            remove.innerHTML = `<i class="fa fa-trash" aria-hidden="true"></i>`
-            remove.style.padding = "0px"
+
+            remove.innerHTML = `<i style="padding:5px 7px; margin:0px" class="fa fa-trash" aria-hidden="true"></i>`
+            remove.style.padding = "3px"
             remove.style.borderRadius = "20px"
             remove.setAttribute('onclick', 'removePlayer(event)')
+
             cong.textContent = '+5'
+            cong.style.padding = "5px 7px"
+            cong.style.borderRadius = "20px"
             cong.setAttribute('onclick', 'plusScore(event)')
+
             tru.textContent = '-5'
+            tru.style.padding = "5px 9px"
+            tru.style.borderRadius = "20px"
             tru.setAttribute('onclick', 'minusScore(event)')
             let dataList = {
                 "fullName": fullName.textContent,
@@ -107,7 +136,7 @@
                 "score": score.textContent
             }
             let dataText = JSON.stringify(dataList, undefined, 4)
-            let data = sessionStorage.setItem(clName,dataText)
+            let data = sessionStorage.setItem(id,dataText)
             number++
             localStorage.setItem('number',number)
         }
@@ -117,9 +146,12 @@
             let obj = Object.keys(sessionStorage).reduce(function(obj, key) {
                 
                 let div = document.createElement('div')
-                let clName = key
-                div.className = clName
+                let id = key
+                div.id = id
+                div.className = 'row'
                 cnt.appendChild(div)
+
+                let wFT = document.createElement('div')
                 let fullName = document.createElement('p')
                 let time = document.createElement('p')
                 let country = document.createElement('p')
@@ -127,29 +159,47 @@
                 let remove = document.createElement('button')
                 let cong = document.createElement('button')
                 let tru = document.createElement('button')
-                div.appendChild(fullName)
-                div.appendChild(time)
+
+                wFT.appendChild(fullName)
+                wFT.appendChild(time)
+                div.appendChild(wFT)
                 div.appendChild(country)
                 div.appendChild(score)
                 div.appendChild(remove)
                 div.appendChild(cong)
                 div.appendChild(tru)
 
+                wFT.className = 'playerItem col-sm-3'
+            // fullName.className = 'playerItem'
+            // time.className = 'playerItem'
+                country.className = 'playerItem  col-sm-3'
+                score.className = 'playerItem col-sm-3'
+                remove.className = 'playerIcon '
+                cong.className = 'playerIcon '
+                tru.className = 'playerIcon '
+
                 let dataText = sessionStorage.getItem(key)
-                console.log('dataText',dataText);
+                // console.log('dataText',dataText);
                 let data = JSON.parse(dataText)
-                console.log(`${clName}`,data);
+                // console.log(`${id}`,data);
                 fullName.textContent = data['fullName']
                 time.textContent = data['time']
                 country.textContent = data['country']
                 score.textContent = data['score']
+
                 remove.innerHTML = `<i style="padding:5px 7px; margin:0px" class="fa fa-trash" aria-hidden="true"></i>`
-                remove.style.padding = "0px"
+                remove.style.padding = "3px"
                 remove.style.borderRadius = "20px"
                 remove.setAttribute('onclick', 'removePlayer(event)')
+
                 cong.textContent = '+5'
+                cong.style.padding = "5px 7px"
+                cong.style.borderRadius = "20px"
                 cong.setAttribute('onclick', 'plusScore(event)')
+
                 tru.textContent = '-5'
+                tru.style.padding = "5px 9px"
+                tru.style.borderRadius = "20px"
                 tru.setAttribute('onclick', 'minusScore(event)')
 
             }, {});
