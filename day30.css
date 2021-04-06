@@ -1,0 +1,54 @@
+*, html, body { margin: 0; padding: 0;}
+
+.container{
+    text-align: center;
+}
+
+.container .listcountries {
+    height: auto;
+}
+.container .listcountries ul{
+    list-style: none;
+}
+.itemCountry {
+    float: left; 
+    width: 210px; 
+    height: 240px;
+    background: rgb(241, 241, 241); 
+    margin: 9px; 
+}
+
+.itemCountry .flag {
+    width : 90px;
+    height: 60px;
+    text-align: center;
+
+}
+
+.itemCountry .name{
+    text-align: center;
+    margin-top: 5px;
+    font-size: 20px;
+    color: rgb(170, 107, 36);
+}
+.itemCountry .capital,.languages,.population{
+    text-align: left;
+    margin-left: 10px;
+}
+
+/* .chart {
+    text-align: right;
+    display: grid;
+    grid-template-columns: 30% 30% 40%;
+} */
+.wrap{
+
+    display: flex;
+    flex-direction: column;
+ 
+}
+
+.detail{
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+}

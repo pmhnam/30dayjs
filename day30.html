@@ -4,14 +4,406 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="day30.css">
+    <script src="countries.js"></script>
+    
     <title>Document</title>
 </head>
 <body>
-    <input type="text">
-    <button>name</button>
-    <button>capital</button>
-    <button>polulation</button>
+    
+    <div class="container">
+        <h1>WORLD COUNTRIES DATA</h1>
+        <h3>Currently, we have 250 countries</h3>
+        <h3 class="finded"></h3>
+        <input type="text" class="search">
+        <div class="button">
+            <button onclick="sortName(event)">name</button>
+            <button onclick="sortCapital(event)">capital</button>
+            <button onclick="sortPopulation(event)">polulation</button>
+            <button>chart</button>
+        </div>
+        <div class="wrap">
+            <div class="listcountries">
+                <ul class="countries"></ul>
+            </div>
+            <div class="chart">
+                <div class="control">
+                    <button onclick="showChartPl()">POPULATION</button>
+                    <button onclick="showChartLg()">LANGUAGES</button>
+                </div>
+                <div class="showChart"></div>
+            </div>
+        </div>
+    </div>
     <script>
+        const divCountries = document.querySelector('.countries')
+        const divChart = document.querySelector('.chart')
+        const finded = document.querySelector('.finded')
+        const input = document.querySelector('.search')
+        const listCountries = document.querySelector('.countries')
+        const showChart = document.querySelector('.showChart')
+        var totalPopulation = 0
+        // tạo flag để sort
+        sessionStorage.setItem('flag', true)
+        countriesText = JSON.stringify(countries, undefined, 4)
+        sessionStorage.setItem('listDataFind',countriesText)
+
+        countries.forEach((ele) => {
+            ele['name'] = ele['name'].toUpperCase()
+            totalPopulation += ele['population']
+        })
+
+        const taoList = () => {
+            countries.forEach( value => {
+                let li = document.createElement('li')
+                let flag = document.createElement('img')
+                let name = document.createElement('p')
+                let capital = document.createElement('p')
+                let languages = document.createElement('p')
+                let population = document.createElement('p')
+
+                divCountries.appendChild(li)
+                li.appendChild(flag)
+                li.appendChild(name)
+                li.appendChild(capital)
+                li.appendChild(languages)
+                li.appendChild(population)
+
+                li.className = 'itemCountry'
+                flag.className = 'flag'
+                name.className = 'name'
+                capital.className = 'capital'
+                languages.className = 'languages'
+                population.className = 'population'
+
+                flag.src = value["flag"]
+                name.textContent = value['name']
+                capital.textContent = 'Capital: ' + value['capital']
+
+                let lang = ''
+                for (let i = 0; i < value['languages'].length - 1 ; i++) {
+                    lang += value['languages'][i] + ', '
+                }
+                lang += value['languages'][value['languages'].length-1] 
+                languages.textContent = 'Languages: ' +lang
+
+                population.textContent = 'Population: ' + value['population']
+
+            })
+            
+
+        }
+
+        const xoaList = () => {
+            listCountries.innerHTML = ''
+        }
+
+        input.addEventListener('input',(e) => {
+                let number = 0
+                xoaList()
+                input.value = input.value.toUpperCase()
+                sessionStorage.setItem('valueSearch', input.value) 
+                var listDataFind = []
+
+                countries.forEach((v) => {
+                    if (v['name'].search(e.target.value) == 0){
+                        let li = document.createElement('li')
+                        let flag = document.createElement('img')
+                        let name = document.createElement('p')
+                        let capital = document.createElement('p')
+                        let languages = document.createElement('p')
+                        let population = document.createElement('p')
+
+                        divCountries.appendChild(li)
+                        li.appendChild(flag)
+                        li.appendChild(name)
+                        li.appendChild(capital)
+                        li.appendChild(languages)
+                        li.appendChild(population)
+
+                        li.className = 'itemCountry'
+                        flag.className = 'flag'
+                        name.className = 'name'
+                        capital.className = 'capital'
+                        languages.className = 'languages'
+                        population.className = 'population'
+
+                        flag.src = v["flag"]
+                        name.textContent = v['name']
+                        capital.textContent = 'Capital: ' + v['capital']
+
+                        let lang = ''
+                        for (let i = 0; i < v['languages'].length - 1 ; i++) {
+                            lang += v['languages'][i] + ', '
+                        }
+                        lang += v['languages'][v['languages'].length-1] 
+                        languages.textContent = 'Languages: ' +lang
+
+                        population.textContent = 'Population: ' + v['population']
+
+                        number++
+                        // luu data tim duoc
+                        listDataFind.push({
+                            'flag' : v["flag"],
+                            'name' : v['name'],
+                            'capital' : v['capital'],
+                            'languages' : v['languages'],
+                            'population' : v['population']
+                        })
+                    }
+                })
+                finded.textContent = `${number} countries satisfied the search criteria`
+                let listDataFindText = JSON.stringify(listDataFind,undefined,4)
+                sessionStorage.setItem('listDataFind',listDataFindText)
+                showChartPl()
+            })
+
+        const sortCapital = (e) =>{
+            xoaList()
+            let dataText = sessionStorage.getItem('listDataFind')
+            let data = JSON.parse( dataText )
+            flag = sessionStorage.getItem('flag')
+            // console.log(typeof(flag));
+            if(flag == 'true'){
+                data.sort( (a,b) => (a['capital'] > b['capital']) ? 1 : ((b['capital'] > a['capital']) ? -1 : 0))
+                sessionStorage.setItem('flag',false)
+            }
+            else{
+                data.sort( (a,b) => (a['capital'] < b['capital']) ? 1 : ((b['capital'] < a['capital']) ? -1 : 0))
+                sessionStorage.setItem('flag',true)
+            }
+            data.forEach((v) => {
+                if (v['name'].search(e.target.value) == 0){
+                    let li = document.createElement('li')
+                    let flag = document.createElement('img')
+                    let name = document.createElement('p')
+                    let capital = document.createElement('p')
+                    let languages = document.createElement('p')
+                    let population = document.createElement('p')
+
+                    divCountries.appendChild(li)
+                    li.appendChild(flag)
+                    li.appendChild(name)
+                    li.appendChild(capital)
+                    li.appendChild(languages)
+                    li.appendChild(population)
+
+                    li.className = 'itemCountry'
+                    flag.className = 'flag'
+                    name.className = 'name'
+                    capital.className = 'capital'
+                    languages.className = 'languages'
+                    population.className = 'population'
+
+                    flag.src = v["flag"]
+                    name.textContent = v['name']
+                    capital.textContent = 'Capital: ' + v['capital']
+
+                    let lang = ''
+                    for (let i = 0; i < v['languages'].length - 1 ; i++) {
+                        lang += v['languages'][i] + ', '
+                    }
+                    lang += v['languages'][v['languages'].length-1] 
+                    languages.textContent = 'Languages: ' +lang
+
+                    population.textContent = 'Population: ' + v['population']
+                }
+            })
+        }
+
+
+        const sortName = (e) =>{
+                xoaList()
+                let dataText = sessionStorage.getItem('listDataFind')
+                let data = JSON.parse( dataText )
+                flag = sessionStorage.getItem('flag')
+                // console.log(typeof(flag));
+                if(flag == 'true'){
+                    data.sort( (a,b) => (a['name'] > b['name']) ? 1 : ((b['name'] > a['name']) ? -1 : 0))
+                    sessionStorage.setItem('flag',false)
+                }
+                else{
+                    data.sort( (a,b) => (a['name'] < b['name']) ? 1 : ((b['name'] < a['name']) ? -1 : 0))
+                    sessionStorage.setItem('flag',true)
+                }
+                data.forEach((v) => {
+                    if (v['name'].search(e.target.value) == 0){
+                        let li = document.createElement('li')
+                        let flag = document.createElement('img')
+                        let name = document.createElement('p')
+                        let capital = document.createElement('p')
+                        let languages = document.createElement('p')
+                        let population = document.createElement('p')
+
+                        divCountries.appendChild(li)
+                        li.appendChild(flag)
+                        li.appendChild(name)
+                        li.appendChild(capital)
+                        li.appendChild(languages)
+                        li.appendChild(population)
+
+                        li.className = 'itemCountry'
+                        flag.className = 'flag'
+                        name.className = 'name'
+                        capital.className = 'capital'
+                        languages.className = 'languages'
+                        population.className = 'population'
+
+                        flag.src = v["flag"]
+                        name.textContent = v['name']
+                        capital.textContent = 'Capital: ' + v['capital']
+
+                        let lang = ''
+                        for (let i = 0; i < v['languages'].length - 1 ; i++) {
+                            lang += v['languages'][i] + ', '
+                        }
+                        lang += v['languages'][v['languages'].length-1] 
+                        languages.textContent = 'Languages: ' +lang
+
+                        population.textContent = 'Population: ' + v['population']
+                    }
+                })
+            }
+            
+
+        const sortPopulation = (e) =>{
+            xoaList()
+            let dataText = sessionStorage.getItem('listDataFind')
+            let data = JSON.parse( dataText )
+            flag = sessionStorage.getItem('flag')
+            // console.log(typeof(flag));
+            if(flag == 'true'){
+                data.sort( (a,b) => (a['population'] > b['population']) ? 1 : ((b['population'] > a['population']) ? -1 : 0))
+                sessionStorage.setItem('flag',false)
+            }
+            else{
+                data.sort( (a,b) => (a['population'] < b['population']) ? 1 : ((b['population'] < a['population']) ? -1 : 0))
+                sessionStorage.setItem('flag',true)
+            }
+            data.forEach((v) => {
+                if (v['name'].search(e.target.value) == 0){
+                    let li = document.createElement('li')
+                    let flag = document.createElement('img')
+                    let name = document.createElement('p')
+                    let capital = document.createElement('p')
+                    let languages = document.createElement('p')
+                    let population = document.createElement('p')
+
+                    divCountries.appendChild(li)
+                    li.appendChild(flag)
+                    li.appendChild(name)
+                    li.appendChild(capital)
+                    li.appendChild(languages)
+                    li.appendChild(population)
+
+                    li.className = 'itemCountry'
+                    flag.className = 'flag'
+                    name.className = 'name'
+                    capital.className = 'capital'
+                    languages.className = 'languages'
+                    population.className = 'population'
+
+                    flag.src = v["flag"]
+                    name.textContent = v['name']
+                    capital.textContent = 'Capital: ' + v['capital']
+
+                    let lang = ''
+                    for (let i = 0; i < v['languages'].length - 1 ; i++) {
+                        lang += v['languages'][i] + ', '
+                    }
+                    lang += v['languages'][v['languages'].length-1] 
+                    languages.textContent = 'Languages: ' +lang
+
+                    population.textContent = 'Population: ' + v['population']
+                }
+            })
+        }
+        
+        const showChartPl = () => {
+            //get data countries
+            let dataText = sessionStorage.getItem('listDataFind')
+            let data = JSON.parse(dataText)
+
+            // delete old chart
+            showChart.innerHTML = ''
+
+            data.forEach((ele) => {
+                //create element div contain chart population
+                let div = document.createElement('div')
+                let nameCountry = document.createElement('p')
+                let wrapperChart = document.createElement('div')
+                let chart = document.createElement('div')
+                let number = document.createElement('p')
+
+                div.className = 'detail'
+                showChart.appendChild(div)
+                div.appendChild(nameCountry)
+                div.appendChild(wrapperChart)
+                div.appendChild(number)
+                wrapperChart.appendChild(chart)
+
+                //show data
+
+                showChart.style.width = "100%"
+                div.style.width = "100%"
+                nameCountry.textContent = ele['name']
+                wrapperChart.style.width = '100%'
+                wrapperChart.style.height = '30px'
+                chart.style.width = `${ele['population']*100/totalPopulation}%`
+                chart.style.height = '30px'
+                chart.style.backgroundColor = 'red'
+                number.textContent = ele['population']
+            })
+           
+        }
+        const showChartLg = () => {
+            //get data countries
+            let dataText = sessionStorage.getItem('listDataFind')
+            let data = JSON.parse(dataText)
+
+            // delete old chart
+            showChart.innerHTML = ''
+
+            data.forEach((ele) => {
+                //create element div contain chart population
+                let div = document.createElement('div')
+                let nameCountry = document.createElement('p')
+                let wrapperChart = document.createElement('div')
+                let chart = document.createElement('div')
+                let number = document.createElement('p')
+
+                div.className = 'detail'
+                showChart.appendChild(div)
+                div.appendChild(nameCountry)
+                div.appendChild(wrapperChart)
+                div.appendChild(number)
+                wrapperChart.appendChild(chart)
+
+                //show data
+
+                showChart.style.width = "100%"
+                div.style.width = "100%"
+                nameCountry.textContent = ele['name']
+                wrapperChart.style.width = '100%'
+                wrapperChart.style.height = '30px'
+                chart.style.width = `${ele['languages'].length*100/91}%`
+                chart.style.height = '30px'
+                chart.style.backgroundColor = 'red'
+                number.textContent = ele['languages'].length
+            })
+           
+        }
+        showChartPl()
+        taoList()
 
     </script>
 </body>
